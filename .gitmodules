@@ -1,0 +1,30 @@
+[submodule "OSINT-War-Room"]
+	path = OSINT-War-Room
+	url = https://github.com/Hue-Jhan/OSINT-War-Room.git
+[submodule "Python"]
+	path = Python
+	url = https://github.com/TheAlgorithms/Python.git
+[submodule "Terra-Watch"]
+	path = Terra-Watch
+	url = https://github.com/cifertech/Terra-Watch.git
+[submodule "awesome-gis"]
+	path = awesome-gis
+	url = https://github.com/sshuair/awesome-gis.git
+[submodule "disaster_map"]
+	path = disaster_map
+	url = https://github.com/thedanitor/disaster_map.git
+[submodule "iOS"]
+	path = iOS
+	url = https://github.com/home-assistant/iOS.git
+[submodule "ios"]
+	path = ios
+	url = https://github.com/nextcloud/ios.git
+[submodule "kepler.gl"]
+	path = kepler.gl
+	url = https://github.com/keplergl/kepler.gl.git
+[submodule "llama.cpp"]
+	path = llama.cpp
+	url = https://github.com/ggml-org/llama.cpp.git
+[submodule "mapbox-gl-js"]
+	path = mapbox-gl-js
+	url = https://github.com/mapbox/mapbox-gl-js.git

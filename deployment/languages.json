@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "repositoryLanguages": [
+    { "name": "JavaScript", "sharePercent": 54.5, "deployable": true },
+    { "name": "Swift", "sharePercent": 26.8, "deployable": true },
+    { "name": "HTML", "sharePercent": 10.9, "deployable": true },
+    { "name": "Kotlin", "sharePercent": 7.8, "deployable": true }
+  ],
+  "deploymentTargets": [
+    {
+      "application": "web",
+      "languages": ["JavaScript", "HTML"],
+      "sourceDirectory": "apps/web",
+      "buildCommand": "npm ci && npm run build",
+      "outputDirectory": "apps/web/dist",
+      "hosting": "Static web host"
+    },
+    {
+      "application": "api",
+      "language": "JavaScript",
+      "runtime": "Node.js 20+",
+      "sourceDirectory": "apps/api",
+      "startCommand": "npm start",
+      "containerFile": "apps/api/Dockerfile",
+      "healthCheck": "/health"
+    },
+    {
+      "application": "ios",
+      "language": "Swift",
+      "sourceDirectory": "apps/ios",
+      "buildTool": "Xcode / Swift Package Manager",
+      "distribution": "Apple App Store or enterprise distribution"
+    },
+    {
+      "application": "android",
+      "language": "Kotlin",
+      "sourceDirectory": "apps/android",
+      "buildTool": "Gradle / Android Studio",
+      "distribution": "Google Play or managed Android distribution"
+    }
+  ]
+}
