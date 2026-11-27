@@ -1,0 +1,75 @@
+{
+  "version": 8,
+  "name": "BASTION-KERN • Event Atlas",
+  "metadata": {
+    "mapbox:autocomposite": true,
+    "bastion-kern:designSystem": {
+      "purpose": "Real-time official events, navigation and geospatial intelligence",
+      "palette": {
+        "ink": "#23364D",
+        "stone": "#F6F4EF",
+        "copper": "#C47B4C",
+        "sky": "#9DC8DF",
+        "evergreen": "#3E7C78",
+        "meadow": "#D1E3D5",
+        "building": "#D6E0E8"
+      },
+      "motion": {
+        "cameraMs": 350,
+        "routeRevealMs": 240,
+        "reducedMotion": "honor OS preference"
+      }
+    }
+  },
+  "center": [1.5218, 42.5063],
+  "zoom": 13.2,
+  "bearing": -12.8,
+  "pitch": 55,
+  "projection": { "name": "globe" },
+  "sprite": "mapbox://sprites/alfredobernal2004/cmw5u5scy010401qpeu7n9yut/b8fjw435hx85pp7j172f016pl",
+  "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+  "fog": {
+    "color": "#F6F4EF",
+    "high-color": "#9DC8DF",
+    "horizon-blend": 0.16,
+    "space-color": "#E6EEF3",
+    "star-intensity": 0
+  },
+  "transition": { "duration": 350, "delay": 0 },
+  "sources": {},
+  "layers": [],
+  "imports": [
+    {
+      "id": "basemap",
+      "url": "mapbox://styles/mapbox/standard",
+      "config": {
+        "theme": "faded",
+        "lightPreset": "day",
+        "show3dObjects": true,
+        "show3dBuildings": true,
+        "show3dTrees": true,
+        "show3dLandmarks": true,
+        "showAdminBoundaries": true,
+        "showLandmarkIcons": true,
+        "showPlaceLabels": true,
+        "showPointOfInterestLabels": true,
+        "showRoadLabels": true,
+        "showRoadsAndTransit": true,
+        "showTransitLabels": true,
+        "colorWater": "#9DC8DF",
+        "colorGreenspace": "#D1E3D5",
+        "colorLand": "#F6F4EF",
+        "colorRoads": "#FFFDF9",
+        "colorMotorways": "#C47B4C",
+        "colorTrunks": "#D9AE89",
+        "colorBuildings": "#D6E0E8",
+        "colorBuildingHighlight": "#3E7C78",
+        "colorAdminBoundaries": "#8493A0",
+        "colorPlaceLabels": "#23364D",
+        "colorRoadLabels": "#536476",
+        "colorPointOfInterestLabels": "#536476"
+      }
+    }
+  ]
+}
+
