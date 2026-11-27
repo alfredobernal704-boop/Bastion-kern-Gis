@@ -1,0 +1,10 @@
+{
+  "name": "BASTION-KERN GIS",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "forwardPorts": [4173, 8787],
+  "portsAttributes": {
+    "4173": { "label": "Web app (Vite)", "onAutoForward": "notify" },
+    "8787": { "label": "Events API", "onAutoForward": "silent" }
+  },
+  "postCreateCommand": "npm ci --prefix apps/web && npm ci --prefix apps/api"
+}

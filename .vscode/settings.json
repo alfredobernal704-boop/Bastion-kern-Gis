@@ -1,0 +1,4 @@
+{
+    "python.analysis.excludeLibraryDiagnostics": true,
+    "cmake.sourceDirectory": "/workspaces/bastion-kern-geospatial-intelligence/llama.cpp"
+}

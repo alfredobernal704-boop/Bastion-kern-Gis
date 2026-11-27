@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f4ef" />
+    <meta name="description" content="BASTION-KERN geospatial intelligence and navigation." />
+    <title>BASTION-KERN · Atlas</title>
+    <link rel="preconnect" href="https://api.mapbox.com" />
+    <link rel="preconnect" href="https://events.mapbox.com" />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.33.0/mapbox-gl.css" rel="stylesheet" />
+    <link href="./src/styles.css" rel="stylesheet" />
+    <script src="./config.local.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="BASTION-KERN Atlas home">
+          <span><strong>BASTION<span class="brand-dash">—</span>KERN</strong><small>GEOSPATIAL INTELLIGENCE</small></span>
+        </a>
+        <div class="global-search-wrap">
+          <label class="searchbox global-search"><span aria-hidden="true">⌕</span><input id="coordinate-search" autocomplete="off" placeholder="Search places, coordinates, or events" aria-label="Search places, coordinates, or events" aria-describedby="search-privacy" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" /><kbd>↵</kbd></label>
+          <span class="sr-only" id="search-privacy">Place searches are sent to Mapbox Search; search text is not sent to BASTION-KERN analytics.</span>
+          <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
+        </div>
+        <div class="top-actions">
+          <span class="connection"><span class="pulse-dot"></span><span id="connection-label">Map status</span></span>
+          <span class="sync-chip"><span>↻</span><span id="sync-state">Awaiting configuration</span></span>
+          <button class="analytics-toggle" id="analytics-consent" type="button" aria-pressed="false" aria-label="Enable optional product analytics">Analytics off</button>
+          <button class="avatar" aria-label="BASTION-KERN profile">BK</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="side-panel" id="left-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">WORKSPACE</p><h1 id="panel-title">Event Atlas</h1></div>
+            <button class="icon-button quiet" id="collapse-left" aria-label="Collapse panel">‹</button>
+          </div>
+          <div class="panel-scroll">
+            <section class="region-block"><p class="eyebrow">REGION</p><div class="region-chip"><span>⌖</span> Andorra · Central Pyrenees</div></section>
+            <section class="section-block layers-block">
+              <div class="section-title"><div><h2>Live layers</h2><span class="section-meta">Map content &amp; visibility</span></div><span class="layers-glyph">▧</span></div>
+              <label class="layer-row"><span class="layer-symbol events">✳</span><span><strong>Publisher events</strong><small id="event-layer-status">Feed connection status</small></span><input type="checkbox" id="toggle-events" checked /><i class="switch"></i></label>
+              <label class="layer-row"><span class="layer-symbol buildings">▥</span><span><strong>3D buildings</strong><small>Mapbox Standard</small></span><input type="checkbox" id="toggle-3d" checked /><i class="switch"></i></label>
+              <label class="layer-row"><span class="layer-symbol imports">⌖</span><span><strong>Places &amp; services</strong><small>Points of interest</small></span><input type="checkbox" id="toggle-places" checked /><i class="switch"></i></label>
+            </section>
+
+            <section class="section-block route-section" id="route-section">
+              <div class="section-title"><div><h2>Route planner</h2><span class="section-meta">Set an origin and destination</span></div><span class="route-icon">↗</span></div>
+              <div class="route-inputs">
+                <div class="route-point start-point"><span></span><input id="origin-input" placeholder="Origin · map click or lat, lon" aria-label="Route origin" /></div>
+                <div class="route-connector"></div>
+                <div class="route-point end-point"><span></span><input id="destination-input" placeholder="Destination · map click or lat, lon" aria-label="Route destination" /></div>
+              </div>
+              <div class="profile-picker" role="group" aria-label="Travel profile">
+                <button data-profile="walking" class="profile is-selected">Walk</button>
+                <button data-profile="cycling" class="profile">Cycle</button>
+                <button data-profile="driving" class="profile">Drive</button>
+              </div>
+              <button class="primary-button" id="build-route"><span>↗</span> Plan route</button>
+              <div id="route-result" class="route-result" aria-live="polite"></div>
+              <p class="demo-disclosure">Routing falls back to OSRM's public demo service until a Mapbox directions token is configured.</p>
+            </section>
+
+            <section class="section-block area-section">
+              <div class="section-title"><div><h2>Spatial tools</h2><span class="section-meta">Measure or add your data</span></div><span class="area-icon">⌗</span></div>
+              <div class="area-actions"><button id="draw-area" class="secondary-button">Measure</button><button id="finish-area" class="secondary-button" disabled>Finish</button><button class="secondary-button" id="import-geojson">Import data</button></div>
+              <input id="geojson-file" type="file" accept=".json,.geojson,application/geo+json,application/json" hidden />
+              <small id="import-count" class="import-count">No GeoJSON loaded</small>
+              <div id="area-result" class="area-result">Area and perimeter will appear here.</div>
+            </section>
+          </div>
+          <footer class="panel-footer"><span class="footer-emblem">B·K</span><span>BASTION-KERN <small>ATLAS 0.1 · ANDORRA</small></span><button class="more-button" aria-label="More options">···</button></footer>
+        </aside>
+
+        <section class="map-stage" aria-label="Interactive map">
+          <div id="map" role="application" aria-label="Map of Andorra and the Pyrenees"></div>
+          <div class="map-overlay top-left">
+            <button class="map-chip location-chip" id="search-this-area">⌖ &nbsp; Search this area</button>
+            <button class="mode-tab map-chip is-active" data-mode="explore">Explore</button>
+            <button class="mode-tab map-chip" data-mode="navigate">Navigate</button>
+            <button class="map-chip filter-chip" id="show-filters">Filters</button>
+          </div>
+          <div class="map-overlay top-right map-tools">
+            <div class="zoom-control"><button class="map-control" id="zoom-in" aria-label="Zoom in">＋</button><button class="map-control" id="zoom-out" aria-label="Zoom out">−</button></div>
+            <button class="map-control" id="locate-me" aria-label="Locate me" title="Locate me">↗</button>
+            <button class="map-control compass" id="reset-bearing" aria-label="Reset map rotation">N</button>
+            <button class="map-control terrain-control" id="toggle-camera" aria-pressed="true">3D</button>
+            <button class="map-control theme-control" id="theme-toggle" title="Toggle lighting" aria-label="Toggle map lighting">◐</button>
+            <button class="map-control terrain-control" id="reset-view" aria-label="Reset view">⌖</button>
+          </div>
+          <section class="section-block map-event-card" id="events-section" aria-labelledby="event-card-title">
+            <div class="event-card-kicker">SOURCE STATUS · AWAITING FEED</div>
+            <h2 id="event-card-title">Connect an official event feed</h2>
+            <p class="event-card-description">Events appear after a publisher API is approved.</p>
+            <div class="event-card-actions"><span class="feed-state" id="event-count">0 sources connected</span><button id="refresh-events" class="primary-button">Provider setup <span>→</span></button></div>
+            <details class="provider-details" id="provider-details">
+              <summary>Official sources</summary>
+              <div class="source-candidates">
+                <div class="source-card"><span class="source-icon source-icon-light">U</span><div><strong>USGS Earthquakes</strong><small>Official GeoJSON · refreshed every minute</small></div><span class="source-state" data-provider-status="usgs-all-hour">READY</span></div>
+                <div class="source-card"><span class="source-icon">A</span><div><strong>Agenda.ad</strong><small>Official RSS · reuse permission and schema pending</small></div><span class="source-state">SETUP</span></div>
+                <div class="source-card"><span class="source-icon source-icon-light">V</span><div><strong>VisitAndorra</strong><small>Tourism calendar · feed not confirmed</small></div><span class="source-state">SETUP</span></div>
+              </div>
+            </details>
+            <div class="empty-note"><span class="empty-icon">✳</span><span>No official event records returned for this feed window.</span></div>
+            <div id="event-list" class="event-list" aria-live="polite"></div>
+          </section>
+          <span class="live-chip map-overlay bottom-left"><span class="pulse-dot"></span> LIVE POSITION <b id="location-state">OFF</b></span>
+          <div class="map-overlay bottom-right coordinates" id="cursor-coords">42.5063° N&nbsp; 1.5218° E</div>
+          <div class="map-attribution">© Mapbox · © OpenStreetMap</div>
+          <div class="map-notice" id="map-notice" role="status" aria-live="polite"></div>
+          <div class="map-empty" id="map-empty" hidden><div class="empty-monogram">B·K</div><h2>Map configuration needed</h2><p>Add a Mapbox public token to <code>config.local.js</code> to load the interactive map.</p></div>
+        </section>
+
+        <aside class="insight-panel" id="right-panel" aria-hidden="true">
+          <div class="detail-topline"><span class="eyebrow">GEOSPATIAL STATUS</span><button class="icon-button quiet" id="collapse-right" aria-label="Collapse insights">›</button></div>
+          <h2>Field overview</h2>
+          <p class="detail-intro">A clear view of the terrain, active data and route state.</p>
+          <div class="status-card"><div class="status-heading"><span class="status-ring">⌖</span><span><strong id="fix-title">Location off</strong><small id="fix-detail">Choose Locate me to begin</small></span><span class="status-pill">PRIVATE</span></div><div class="status-stats"><span><small>ACCURACY</small><b id="fix-accuracy">—</b></span><span><small>TRACK</small><b id="fix-track">OFF</b></span></div></div>
+          <div class="detail-section"><div class="section-title"><div><h3>Selected feature</h3><span class="section-meta">Click any map feature</span></div><span class="detail-dots">···</span></div><div class="feature-empty"><span>⌖</span><p>No feature selected</p><small>Tap a feature or import a GeoJSON layer.</small></div></div>
+          <div class="detail-section"><div class="section-title"><div><h3>Data provenance</h3><span class="section-meta">Source transparency</span></div><span class="shield">✓</span></div><div class="provenance-row"><span class="source-badge source-badge-blue">U</span><span><strong>USGS Earthquakes</strong><small>Official GeoJSON feed · hourly window</small></span><b data-provider-status="usgs-all-hour">READY</b></div><div class="provenance-row"><span class="source-badge">A</span><span><strong>Agenda.ad</strong><small>Reuse permission and schema pending</small></span><b>SETUP</b></div></div>
+          <div class="privacy-note"><span>◈</span><p><strong>Location stays on this device</strong><small>Coordinates are not sent to product analytics.</small></p></div>
+          <div class="right-footer"><span class="sync-light"></span><span id="panel-sync-state">Awaiting configuration</span><span class="footer-spacer"></span>WGS 84</div>
+        </aside>
+      </main>
+    </div>
+    <div class="toast-region" id="toast-region" aria-live="polite"></div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
+
+

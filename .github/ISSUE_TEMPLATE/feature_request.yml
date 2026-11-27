@@ -1,0 +1,44 @@
+name: Feature or improvement proposal
+description: Propose a focused user or geospatial workflow improvement.
+title: "feature: "
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Who has this problem, and in what workflow?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the smallest useful behavior and how success could be evaluated.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Data, privacy, security, and licensing impact
+      description: Mention location data, provider feeds, third-party services, assets, permissions, and expected data flows.
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Affected surface
+      options:
+        - Web app
+        - Event API
+        - iOS
+        - Android
+        - Documentation
+        - Cross-platform
+    validations:
+      required: true
+  - type: checkboxes
+    id: check
+    attributes:
+      label: Before submitting
+      options:
+        - label: This is not a security vulnerability report; I will report security issues privately.
+          required: true
