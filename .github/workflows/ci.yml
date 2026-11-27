@@ -1,0 +1,55 @@
+name: Validate BASTION-KERN GIS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  web-build:
+    name: Web production build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install web dependencies
+        working-directory: apps/web
+        run: npm install --no-audit --no-fund
+      - name: Build web app
+        working-directory: apps/web
+        run: npm run build
+
+  api-health:
+    name: Event API health smoke check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check API syntax and health endpoint
+        shell: bash
+        run: |
+          node --check apps/api/server.mjs
+          node apps/api/server.mjs >/tmp/bastion-api.log 2>&1 &
+          api_pid=$!
+          trap 'kill "$api_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if response=$(curl --fail --silent --show-error http://127.0.0.1:8787/health); then
+              node -e 'const body=JSON.parse(process.argv[1]); if (body.ok !== true) process.exit(1);' "$response"
+              break
+            fi
+            sleep 0.25
+          done
+          if ! curl --fail --silent --show-error --max-time 15 'http://127.0.0.1:8787/api/events?provider=usgs-all-hour' >/tmp/bastion-events.json; then
+            cat /tmp/bastion-api.log
+            exit 1
+          fi
+          node -e 'const fs=require("node:fs"); const body=JSON.parse(fs.readFileSync("/tmp/bastion-events.json","utf8")); const source=body.providers?.find(p=>p.id==="usgs-all-hour"); if (body.type!=="FeatureCollection" || source?.status!=="connected" || source?.verified!==true || !Array.isArray(body.features) || body.features.some(f=>!f.id || !f.geometry?.coordinates || !f.properties?.startsAt)) process.exit(1); console.log(`USGS source connected; ${body.features.length} normalized events.`);'
+

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "usgs-all-hour",
+    "name": "USGS Earthquakes",
+    "endpoint": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson",
+    "sourceUrl": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php",
+    "verified": true,
+    "format": "geojson",
+    "cacheTtlSeconds": 55,
+    "mapping": {
+      "id": "id",
+      "title": "title",
+      "start": "time",
+      "timestampUnit": "milliseconds",
+      "category": "type",
+      "magnitude": "mag",
+      "magnitudeType": "magType",
+      "place": "place",
+      "alert": "alert",
+      "significance": "sig",
+      "reviewStatus": "status",
+      "url": "url"
+    }
+  }
+]
+
