@@ -1,0 +1,14 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+apps/web/config.local.js
+apps/web/node_modules/
+apps/web/dist/
+apps/api/providers.json
+apps/ios/.build/
+apps/android/.gradle/
+apps/android/local.properties
+*.xcuserstate
+DerivedData/
+
