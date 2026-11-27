@@ -1,0 +1,21 @@
+{
+  "name": "@bastion-kern/web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@turf/turf": "^7.2.0",
+    "@mapbox/search-js-core": "^1.6.0",
+    "mapbox-gl": "^3.33.0",
+    "posthog-js": "^1.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.4.1"
+  }
+}
+
